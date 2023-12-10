@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 
 
-def generate_ground_truth(nSamples):
+# Simulates ground truth data for the LKF project
+def generate_ground_truth(nSamples, dt=1.0):
     y = np.linspace(-400, 0, 18)
     x = np.ones(18, dtype=float) * 300.0
 
@@ -19,13 +20,13 @@ def generate_ground_truth(nSamples):
     positions[1] = np.concatenate((y, y_turn))
 
     speed = np.zeros_like(positions)
-    speed[0, :-1] = positions[0, 1:] - positions[0, :-1]
-    speed[1, :-1] = positions[1, 1:] - positions[1, :-1]
+    speed[0, :-1] = (positions[0, 1:] - positions[0, :-1]) / dt
+    speed[1, :-1] = (positions[1, 1:] - positions[1, :-1]) / dt
     speed[:, -1] = speed[:, -2]
 
     acceleration = np.zeros_like(positions)
-    acceleration[0, :-1] = speed[0, 1:] - speed[0, :-1]
-    acceleration[1, :-1] = speed[1, 1:] - speed[1, :-1]
+    acceleration[0, :-1] = (speed[0, 1:] - speed[0, :-1]) / dt
+    acceleration[1, :-1] = (speed[1, 1:] - speed[1, :-1]) / dt
 
     gt_dict = {
         "px": positions[0],
@@ -36,8 +37,8 @@ def generate_ground_truth(nSamples):
         "ay": acceleration[1],
     }
     df = pd.DataFrame(gt_dict)
-    df.to_csv("data/simple_data/ground_truth.csv")
+    df.to_csv("data/ground_truth.csv")
 
 
 if __name__ == "__main__":
-    generate_ground_truth()
+    generate_ground_truth(35, 1.0)
