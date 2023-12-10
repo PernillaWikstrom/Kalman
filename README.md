@@ -7,7 +7,10 @@ pip install -r requirements.txt
 ```
 
 # Kalman
-This is a repository for linear kalman filtering
+This is a repository for kalman filtering
+
+
+## Project 1: Linear Kalman filter with simulated ground truth data:
 
 ### Theory
 A vehicle's position moves in 2D space with its position (x,y), the states $\hat{x}_k$ for the kalman filter are the pose and speed in both x- and y-directions. By taking the current position and integrate speed with the time step and adding the second integration of the acceleration we can compute a new position (x,y). The state vector $\textbf{x}_k\in m\times 1 $ is formed as;
@@ -81,11 +84,11 @@ and the states is updated by taking the previous state, adding the new predictio
 $\textbf{x}_k = \textbf{x}_{k-1} + K \bar{y}_k \newline
 \textbf{P}_k = (I-KH)\textbf{P}_{k-1}k$.
 
-# Running the script
+## Running the script
 
 ```bash
 
-python3 main.py ---std_measurements sigma_p --std_process sigma_a
+python3 main_LKF.py ---std_measurements sigma_p --std_process sigma_a
 ```
 $\sigma_a$ : [m/s²] standard deviation of the process assuming that the acceleration is constant.
 
